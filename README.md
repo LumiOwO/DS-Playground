@@ -1,2 +1,15 @@
 # DS-Playground
-A place to implement various data structures and algorithms.
+该项目为练习用，主要尝试实现课本上的一些数据结构和算法，同时学习怎样进行单元测试以及怎么用Cmake。
+
+## 核心目标
+* CMake的使用
+* 简单的单元测试
+* 尽可能模块化
+* 类似一个草稿本？
+
+## 已实现
+
+## 计划中
+* AVL Tree
+* 红黑树
+* B+树

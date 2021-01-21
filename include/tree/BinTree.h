@@ -1,6 +1,6 @@
 /**
  * @file       binTree.h
- * @author     Lumi (Lumi_OwO@hotmail.com)
+ * @author     Lumi (LumiOwO@hotmail.com)
  * @date       2021-01-11
  * 
  * @brief    Base class for binary tree.
@@ -11,10 +11,9 @@
  * *********************************************************************************
  */
 
-#include <string>
+#include <memory>
 #include <vector>
 #include <queue>
-#include <iostream>
 
 namespace DS {
 
@@ -27,15 +26,15 @@ class BinTreeNode {
 public:
     /// The value of node. 
     T _value;
-    /// Left subTree
-    BinTreeNode *_left;
-    /// Right subTree
-    BinTreeNode *_right;
+    /// Smart pointer for left subTree
+    std::shared_ptr<BinTreeNode> _left;
+    /// Smart pointer for right subTree
+    std::shared_ptr<BinTreeNode> _right;
 
     /// Constructors
     BinTreeNode() : _value(0), _left(nullptr), _right(nullptr) { }
     BinTreeNode(T value) : _value(value), _left(nullptr), _right(nullptr) { }
-    BinTreeNode(T value, BinTreeNode *left, BinTreeNode *right) :
+    BinTreeNode(T value, std::shared_ptr<BinTreeNode> left, std::shared_ptr<BinTreeNode> right) :
         _value(value), _left(left), _right(right) { }
 
     /// Destructors
@@ -110,16 +109,16 @@ public:
             T t = cur->Visit(); 
             if(out) out->push_back(t);
 
-            if(cur->_left) q.push(cur->_left);
-            if(cur->_right) q.push(cur->_right);
+            if(cur->_left) q.push(cur->_left.get());
+            if(cur->_right) q.push(cur->_right.get());
         }
     }
 }; ///< class BinTreeNode
 
 
-/// typedef the pointer to node as BinTree
+/// typedef the smart pointer to node as BinTree
 template <typename T>
-using BinTree = BinTreeNode<T> *;
+using BinTree = std::shared_ptr< BinTreeNode<T> >;
 
 
 }; ///< namespace DS

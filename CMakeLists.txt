@@ -5,17 +5,26 @@ project(DS-Playground)
 set(CMAKE_CXX_STANDARD 11)
 
 # Binary Tree
-add_library(BinTree INTERFACE)
-target_include_directories(BinTree
+add_library(tree INTERFACE)
+target_include_directories(tree
     INTERFACE
     ${PROJECT_SOURCE_DIR}/include
 )
 
-# tests
-add_executable(Test_BinTree
+# Google Test
+add_subdirectory(thirdparty/googletest)
+
+# Enable CTest testing
+enable_testing()
+
+# Testing executables
+add_executable(test_BinTree
     test/test_BinTree.cpp
 )
-target_link_libraries(Test_BinTree
+target_link_libraries(test_BinTree
     PRIVATE
-    BinTree
+    tree
+    gtest 
+    gtest_main
 )
+add_test(Test_BinTree Test_BinTree)

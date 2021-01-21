@@ -1,62 +1,128 @@
-#include "binTree/binTree.h"
-#include <iostream>
+#include "tree/BinTree.h"
+#include "gtest/gtest.h"
 
-template <typename T>
-void PrintVector(std::vector<T> &vec) {
-    for(T t : vec) {
-        std::cout << t << ' ';
-    }
-}
+using Node = DS::BinTreeNode<int>;
+using Tree = DS::BinTree<int>;
 
-template <typename T>
-void PrintTree(DS::BinTree<T> tree) {
-    // PreOrder
-    std::vector<T> res;
-    tree->PreOrder(&res);
-    std::cout << "PreOrder: ";
-    PrintVector(res);
-    std::cout << std::endl;
-    // InOrder
-    res.clear();
-    tree->InOrder(&res);
-    std::cout << "InOrder: ";
-    PrintVector(res);
-    std::cout << std::endl;
-    // PostOrder
-    res.clear();
-    tree->PostOrder(&res);
-    std::cout << "PostOrder: ";
-    PrintVector(res);
-    std::cout << std::endl;
-    // LevelOrder
-    res.clear();
-    tree->LevelOrder(&res);
-    std::cout << "LevelOrder: ";
-    PrintVector(res);
-    std::cout << std::endl;
-}
-
-int main() {
-    using Node = DS::BinTreeNode<int>;
-    using Tree = DS::BinTree<int>;
-
+class BinTreeTest : public ::testing::Test {
+protected:
     /**
+     * Test case: 
+     * 
      *       4
      *   2       6
      * 1   3   5   7
-     * 
+     *
      */
-    Node n1(1), n3(3), n5(5), n7(7);
-    Node n2(2, &n1, &n3), n6(6, &n5, &n7);
-    Node n4(4, &n2, &n6);
+    Tree _n1, _n3, _n5, _n7, _n2, _n6, _n4;
+    
+    void SetUp() override {
+        _n1 = std::make_shared<Node>(1);
+        _n3 = std::make_shared<Node>(3);
+        _n5 = std::make_shared<Node>(5);
+        _n7 = std::make_shared<Node>(7);
+        _n2 = std::make_shared<Node>(2, _n1, _n3);
+        _n6 = std::make_shared<Node>(6, _n5, _n7);
+        _n4 = std::make_shared<Node>(4, _n2, _n6);
+    }
 
-    std::cout << "1:\n";
-    PrintTree(&n4);
+    // void TearDown() override { }
+};
 
-    std::cout << "2:\n";
-    PrintTree(&n1);
+TEST_F(BinTreeTest, root) {
+    Tree tree = _n4;
 
-    n6._left = n6._right = nullptr;
-    std::cout << "3:\n";
-    PrintTree(&n4);
+    std::vector<int> ans{4, 2, 1, 3, 6, 5, 7};
+    std::vector<int> res;
+    tree->PreOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {1, 2, 3, 4, 5, 6, 7};
+    res = {};
+    tree->InOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {1, 3, 2, 5, 7, 6, 4};
+    res = {};
+    tree->PostOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {4, 2, 6, 1, 3, 5, 7};
+    res = {};
+    tree->LevelOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
 }
+
+TEST_F(BinTreeTest, subtree) {
+    Tree tree = _n2;
+
+    std::vector<int> ans{2, 1, 3};
+    std::vector<int> res;
+    tree->PreOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {1, 2, 3};
+    res = {};
+    tree->InOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {1, 3, 2};
+    res = {};
+    tree->PostOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {2, 1, 3};
+    res = {};
+    tree->LevelOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+}
+
+TEST_F(BinTreeTest, leaf) {
+    Tree tree = _n1;
+
+    std::vector<int> ans{1};
+    std::vector<int> res;
+    tree->PreOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {1};
+    res = {};
+    tree->InOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {1};
+    res = {};
+    tree->PostOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+
+    ans = {1};
+    res = {};
+    tree->LevelOrder(&res);
+    for(size_t i = 0; i < ans.size(); i++) {
+        EXPECT_EQ(ans[i], res[i]);
+    }
+}
+
+

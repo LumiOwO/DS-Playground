@@ -4,7 +4,7 @@ project(DS-Playground)
 
 set(CMAKE_CXX_STANDARD 11)
 
-# Binary Tree
+# Tree
 add_library(tree INTERFACE)
 target_include_directories(tree
     INTERFACE
@@ -28,3 +28,14 @@ target_link_libraries(test_BinTree
     gtest_main
 )
 add_test(Test_BinTree Test_BinTree)
+
+add_executable(test_RBTree
+    test/test_RBTree.cpp
+)
+target_link_libraries(test_RBTree
+    PRIVATE
+    tree
+    gtest
+    gtest_main
+)
+add_test(test_RBTree test_RBTree)

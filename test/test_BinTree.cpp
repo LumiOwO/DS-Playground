@@ -1,3 +1,16 @@
+/**
+ * @file       test_BinTree.cpp
+ * @author     Lumi (lumiowo@hotmail.com)
+ * @date       2021-01-21
+ * 
+ * @brief    Test for simple binary tree.
+ * 
+ * *********************************************************************************
+ * 
+ * 
+ * *********************************************************************************
+ */
+
 #include "tree/BinTree.h"
 #include "gtest/gtest.h"
 

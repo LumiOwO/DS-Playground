@@ -1,9 +1,9 @@
 /**
- * @file       binTree.h
- * @author     Lumi (LumiOwO@hotmail.com)
+ * @file       BinTree.h
+ * @author     Lumi (lumiowo@hotmail.com)
  * @date       2021-01-11
  * 
- * @brief    Base class for binary tree.
+ * @brief    Simple binary tree.
  * 
  * *********************************************************************************
  * 
@@ -24,17 +24,20 @@ class BinTreeNode {
  * 
  */
 public:
+    /// typedef the smart pointer
+    using BinTree = std::shared_ptr<BinTreeNode>;
+
     /// The value of node. 
     T _value;
-    /// Smart pointer for left subTree
-    std::shared_ptr<BinTreeNode> _left;
-    /// Smart pointer for right subTree
-    std::shared_ptr<BinTreeNode> _right;
+    /// Smart pointer to left subTree
+    BinTree _left;
+    /// Smart pointer to right subTree
+    BinTree _right;
 
     /// Constructors
     BinTreeNode() : _value(0), _left(nullptr), _right(nullptr) { }
     BinTreeNode(T value) : _value(value), _left(nullptr), _right(nullptr) { }
-    BinTreeNode(T value, std::shared_ptr<BinTreeNode> left, std::shared_ptr<BinTreeNode> right) :
+    BinTreeNode(T value, BinTree left, BinTree right) :
         _value(value), _left(left), _right(right) { }
 
     /// Destructors
@@ -48,7 +51,7 @@ public:
      * @return   T      The value of node.
      * 
      */
-    virtual T Visit() { return _value; }
+    virtual T Visit() const { return _value; }
 
     /**
      * @brief    Pre-Order Traversal.
@@ -56,7 +59,7 @@ public:
      * @param    out         Pointer to an std::vector. Default nullptr.
      * 
      */
-    virtual void PreOrder(std::vector<T> *out = nullptr) {
+    virtual void PreOrder(std::vector<T> *out = nullptr) const {
         T t = Visit();
         if(out) out->push_back(t);
 
@@ -70,7 +73,7 @@ public:
      * @param    out         Pointer to an std::vector. Default nullptr.
      * 
      */
-    virtual void InOrder(std::vector<T> *out = nullptr) {
+    virtual void InOrder(std::vector<T> *out = nullptr) const {
         if(_left) _left->InOrder(out);
 
         T t = Visit();
@@ -85,7 +88,7 @@ public:
      * @param    out         Pointer to an std::vector. Default nullptr.
      * 
      */
-    virtual void PostOrder(std::vector<T> *out = nullptr) {
+    virtual void PostOrder(std::vector<T> *out = nullptr) const {
         if(_left) _left->PostOrder(out);
         if(_right) _right->PostOrder(out);
 
@@ -99,11 +102,11 @@ public:
      * @param    out         Pointer to an std::vector. Default nullptr.
      * 
      */
-    virtual void LevelOrder(std::vector<T> *out = nullptr) {
-        std::queue<BinTreeNode*> q;
+    virtual void LevelOrder(std::vector<T> *out = nullptr) const {
+        std::queue<const BinTreeNode*> q;
         q.push(this);
         while(!q.empty()) {
-            BinTreeNode* cur = q.front();
+            const BinTreeNode* cur = q.front();
             q.pop();
 
             T t = cur->Visit(); 
@@ -116,9 +119,9 @@ public:
 }; ///< class BinTreeNode
 
 
-/// typedef the smart pointer to node as BinTree
+/// typedef the smart pointer
 template <typename T>
-using BinTree = std::shared_ptr< BinTreeNode<T> >;
+using BinTree = std::shared_ptr<BinTreeNode<T>>;
 
 
 }; ///< namespace DS

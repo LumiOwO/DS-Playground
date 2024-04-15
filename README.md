@@ -3,4 +3,5 @@
 
 ## 已实现
 * 红黑树
+* vector swizzle
 

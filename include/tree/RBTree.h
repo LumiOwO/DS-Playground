@@ -14,7 +14,7 @@
 #include <memory>
 #include <cassert>
 
-namespace DS {
+namespace lumi {
 
 /// Enumeration for node color.
 enum RBColor { BLACK, RED };
@@ -589,4 +589,4 @@ void __Remove_Adjust(const RBTree<T, ALLOW_DUP> &cur,
     }
 }
 
-}; ///< namespace DS
+}; ///< namespace lumi

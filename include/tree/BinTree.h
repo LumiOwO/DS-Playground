@@ -15,7 +15,7 @@
 #include <vector>
 #include <queue>
 
-namespace DS {
+namespace lumi {
 
 template <typename T>
 class BinTreeNode {
@@ -124,4 +124,4 @@ template <typename T>
 using BinTree = std::shared_ptr<BinTreeNode<T>>;
 
 
-}; ///< namespace DS
+}; ///< namespace lumi
